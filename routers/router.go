@@ -8,16 +8,17 @@
 package routers
 
 import (
-	"xx-api/controllers"
-
 	"github.com/astaxie/beego"
+	"xx-api/controllers"
+	"xx-api/filters"
 )
 
 func init() {
 	ns := beego.NewNamespace("/v1",
-		beego.NSNamespace("/object",
+		beego.NSBefore(filters.LoginFilter),
+		beego.NSNamespace("/userAddress",
 			beego.NSInclude(
-				&controllers.ObjectController{},
+				&controllers.UserAddressController{},
 			),
 		),
 		beego.NSNamespace("/user",
@@ -27,4 +28,9 @@ func init() {
 		),
 	)
 	beego.AddNamespace(ns)
+
+}
+func initFilter() {
+
+	beego.InsertFilter("/*", beego.BeforeRouter, filters.PrintURL)
 }

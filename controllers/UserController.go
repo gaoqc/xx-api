@@ -3,12 +3,12 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
+	// "github.com/garyburd/redigo/redis"
+	// "fmt"
+	"github.com/astaxie/beego/logs"
 	"strconv"
 	"xx-api/models"
-)
-
-const (
-	Ticket = "ticket"
+	"xx-api/utils"
 )
 
 type UserForm struct {
@@ -32,6 +32,7 @@ func (c *UserForm) Valid(v *validation.Validation) {
 
 }
 
+// @router  /update [get]
 func (c *UserController) Update() {
 	idType, _ := c.GetInt("idType")
 	userType, _ := c.GetInt("uerType")
@@ -45,6 +46,7 @@ func (c *UserController) Update() {
 }
 
 //注册新用户
+// @router  /register [post]
 func (c *UserController) Register() {
 
 	//校验入参
@@ -66,35 +68,59 @@ func (c *UserController) Register() {
 	//判断是否存在
 	exists := models.ExistUser(userForm.LoginAcc, userForm.IdNo, userForm.Phone, userForm.Email)
 	if exists {
-		c.Data["json"] = vo.GetRetVO(vo.RegistExistsCode, vo.RegistExistsMsg, nil)
+		c.Data["json"] = GetRetVO(RegistExistsCode, RegistExistsMsg, nil)
 		c.ServeJSON()
 		return
 	}
 
 	//新增记录
 	id := models.AddUser(&models.User{LoginAcc: userForm.LoginAcc, LoginPwd: userForm.LoginPwd, Phone: userForm.Phone, Email: userForm.Email, TrueName: userForm.TrueName, IdNo: userForm.IdNo, IdType: userForm.IdType, UserType: userForm.UserType})
-	c.Data["json"] = vo.SuccessVO("id =" + strconv.FormatInt(id, 10))
+	c.Data["json"] = SuccessVO("id =" + strconv.FormatInt(id, 10))
 	c.ServeJSON()
 
 }
+
+// @router /login [get]
 func (c *UserController) Login() {
+
+	//如果是重新登陆,则直接返回
+	utils.RedisDo("del", c.GetSession(utils.TicketName))
+
+	c.DelSession(utils.TicketName)
+
 	loginAcc := c.GetString("loginAcc")
 	loginPwd := c.GetString("loginPwd")
+	logs.Info("login with acc:%s", loginAcc)
 	exist, user := models.Login(loginAcc, loginPwd)
 	if exist {
-		c.SetSession(Ticket, &user)
-		c.Data["json"] = vo.SuccessVO(user)
-		// beego.Info("ticket is :" + utils.ToJson(c.GetSession(Ticket)))
+		ticket := utils.CreateTicket()
+		c.SetSession(utils.TicketName, ticket)
+		c.Data["json"] = SuccessVO(user)
+		// utils.RedisDo("set", ticket, user, "EX", strconv.FormatInt(60*30, 10))
+		utils.RedisSet(ticket, user, "EX", strconv.FormatInt(60*30, 10))
+
 	} else {
-		c.Data["json"] = vo.GetRetVO(vo.LoginFailCode, vo.LoginFailMsg, nil)
+		c.Data["json"] = GetRetVO(LoginFailCode, LoginFailMsg, nil)
 	}
 	c.ServeJSON()
 
 }
 
 //退出登陆
+// @router /logout [post]
 func (c *UserController) Logout() {
-	c.DelSession(Ticket)
-	c.Data["json"] = vo.SuccessVO(nil)
+	ticket := c.GetSession(utils.TicketName)
+	//如果为空,则直接返回
+	if nil == ticket {
+		c.Data["json"] = SuccessVO(nil)
+		c.ServeJSON()
+		return
+	}
+	v, _ := utils.RedisDel(ticket.(string))
+	logs.Info("del redis:%v", v)
+	// utils.RedisDo("del", c.GetSession(utils.TicketName))
+	c.DelSession(utils.TicketName)
+
+	c.Data["json"] = SuccessVO(nil)
 	c.ServeJSON()
 }

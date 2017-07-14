@@ -67,6 +67,7 @@ func Update(phone, email, idNo, trueName, loginAcc string, idType, userType int)
 }
 
 //登录
+// @router /login [get]
 func Login(loginAcc, loginPwd string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
