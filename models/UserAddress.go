@@ -3,7 +3,7 @@ package models
 import (
 	// "github.com/astaxie/beego/orm"
 
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -27,7 +27,7 @@ func AddAddress(address *UserAddress) int64 {
 	o := orm.NewOrm()
 	id, err := o.Insert(address)
 	if err != nil {
-		beego.Error("Insert err:")
+		logs.Error("Insert err:")
 
 	}
 	return id
@@ -38,7 +38,7 @@ func UpdateAddress(address UserAddress) int64 {
 
 	num, err := orm.NewOrm().Update(address)
 	if err != nil {
-		beego.Error("err at update user")
+		logs.Error("err at update user")
 	}
 	return num
 
@@ -51,7 +51,7 @@ func DelAddress(id int) int64 {
 	o := orm.NewOrm()
 	num, err := o.Delete(&add)
 	if err != nil {
-		beego.Error("err at del userAddress")
+		logs.Error("err at del userAddress")
 	}
 	return num
 }

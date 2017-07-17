@@ -43,6 +43,7 @@ func redisGetJsonStr(key string) string {
 }
 func RedisGet(key string, v interface{}) {
 	str := redisGetJsonStr(key)
+
 	ToObj(v, []byte(str))
 
 }

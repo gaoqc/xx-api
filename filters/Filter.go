@@ -19,7 +19,7 @@ var PrintURL = func(ctx *context.Context) {
 }
 
 func loginFilterUri() []string {
-	return []string{"/v1/user/update", "/v1/userAddress", "/v1/user/chgPwd", "/v1/user/SendChgPwdValidCode"}
+	return []string{"/v1/user/update", "/v1/userAddress", "/v1/user/chgPwd", "/v1/user/SendChgPwdValidCode", "/v1/article/add", "/v1/article/del", "/v1/article/myList"}
 }
 
 var LoginFilter = func(ctx *context.Context) {

@@ -18,7 +18,7 @@ const (
 	ParamNotEmptyCode = "000003"
 	ParamNotEmptyMsg  = "参数%s不能为空"
 	UpdateFailCode    = "000104"
-	UpdateFailMsg     = "更新失败"
+	UpdateFailMsg     = "更新失败,记录不存在"
 
 	/**
 	**100001-101000 定义用户相关异常
@@ -33,6 +33,9 @@ const (
 	ReLoginMsg        = "已登录,请勿重新登陆"
 	ChgPwdInValidCode = "100005"
 	ChgPwdInValidMsg  = "验证码校验失败"
+	/**
+	**1010001-1020001 定义论坛相关异常
+	**/
 )
 
 func ValidParams(form interface{}) string {
