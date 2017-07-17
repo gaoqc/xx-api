@@ -5,9 +5,13 @@ import (
 )
 
 func ToJson(v interface{}) string {
+	if v == nil {
+		return ""
+	}
 	b, _ := json.Marshal(v)
 	return string(b)
 }
-func toObj(v interface{}, jsonStr string) {
-	json.Unmarshal([]byte(jsonStr), &v)
+func ToObj(v interface{}, b []byte) {
+	json.Unmarshal(b, &v)
+
 }

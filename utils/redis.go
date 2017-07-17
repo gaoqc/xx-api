@@ -13,7 +13,10 @@ func CreateTicket() string {
 	return TicketName + time.Now().Format("20060102150405000")
 }
 
-func RedisSet(key string, val interface{}, ex, seconds string) (reply interface{}, err error) {
+func RedisSet(key string, val interface{}, formatJson bool, ex, seconds string) (reply interface{}, err error) {
+	if formatJson {
+		val = ToJson(val)
+	}
 	logs.Debug("begin  to RedisSet,key:%s,val:%v,ex:%s,seconds:%s", key, val, ex, seconds)
 	conn := getRedisConn()
 	defer conn.Close()
@@ -22,8 +25,24 @@ func RedisSet(key string, val interface{}, ex, seconds string) (reply interface{
 		logs.Error("redis.Do err:%v", err)
 
 	}
-	logs.Debug("begin  to RedisSet")
+	logs.Debug("end  to RedisSet")
 	return v, err
+}
+func redisGetJsonStr(key string) string {
+	conn := getRedisConn()
+	defer conn.Close()
+
+	b, err := redis.Bytes(conn.Do("get", key))
+	if err != nil {
+		logs.Error("redis.Do err:%v", err)
+
+	}
+	return string(b)
+}
+func RedisGet(key string, v interface{}) {
+	str := redisGetJsonStr(key)
+	ToObj(v, []byte(str))
+
 }
 func RedisDel(key string) (reply interface{}, err error) {
 	logs.Debug("begin  to RedisDel,key:%s", key)

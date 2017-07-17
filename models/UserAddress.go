@@ -16,14 +16,14 @@ type UserAddress struct {
 	User          *User `orm:"rel(fk)"` //设置一对多关系
 }
 
-func ListAddress(userId int) *[]UserAddress {
-	var list *[]UserAddress
-	orm.NewOrm().QueryTable(UserAddress{}).Filter("user_id", userId).All(list)
+func ListAddress(userId int) []UserAddress {
+	var list []UserAddress
+	orm.NewOrm().QueryTable(UserAddress{}).Filter("user_id", userId).All(&list)
 	return list
 }
 
 //增加
-func AddAddress(address UserAddress) int64 {
+func AddAddress(address *UserAddress) int64 {
 	o := orm.NewOrm()
 	id, err := o.Insert(address)
 	if err != nil {

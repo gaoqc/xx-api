@@ -7,6 +7,30 @@ import (
 
 func init() {
 
+	beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"],
+		beego.ControllerComments{
+			Method: "AddAddress",
+			Router: `/add`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"],
+		beego.ControllerComments{
+			Method: "ListAddress",
+			Router: `/list`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserAddressController"],
+		beego.ControllerComments{
+			Method: "DelAddress",
+			Router: `/del`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
 	beego.GlobalControllerRouter["xx-api/controllers:UserController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "Update",

@@ -32,16 +32,24 @@ func (c *UserForm) Valid(v *validation.Validation) {
 
 }
 
+func GetUser(ticket string) models.User {
+	var user models.User
+	utils.RedisGet(ticket, &user)
+	return user
+}
+
 // @router  /update [get]
 func (c *UserController) Update() {
 	idType, _ := c.GetInt("idType")
 	userType, _ := c.GetInt("uerType")
 	num := models.Update(c.GetString("phone"), c.GetString("email"), c.GetString("idNo"), c.GetString("trueName"), c.GetString("loginAcc"), idType, userType)
 	if num > 0 {
-		c.Ctx.WriteString("update ok!")
+		c.Data["json"] = SuccessVO("update ok!")
+
 	} else {
-		c.Ctx.WriteString("update fail,noChange")
+		c.Data["json"] = GetRetVO(UpdateFailCode, UpdateFailMsg, nil)
 	}
+	c.ServeJSON()
 
 }
 
@@ -83,10 +91,11 @@ func (c *UserController) Register() {
 // @router /login [get]
 func (c *UserController) Login() {
 
-	//如果是重新登陆,则直接返回
-	utils.RedisDo("del", c.GetSession(utils.TicketName))
-
-	c.DelSession(utils.TicketName)
+	if c.GetSession(utils.TicketName) != nil {
+		c.Data["json"] = GetRetVO(ReLoginCode, ReLoginMsg, nil)
+		c.ServeJSON()
+		return
+	}
 
 	loginAcc := c.GetString("loginAcc")
 	loginPwd := c.GetString("loginPwd")
@@ -97,7 +106,7 @@ func (c *UserController) Login() {
 		c.SetSession(utils.TicketName, ticket)
 		c.Data["json"] = SuccessVO(user)
 		// utils.RedisDo("set", ticket, user, "EX", strconv.FormatInt(60*30, 10))
-		utils.RedisSet(ticket, user, "EX", strconv.FormatInt(60*30, 10))
+		utils.RedisSet(ticket, user, true, "EX", strconv.FormatInt(60*30, 10))
 
 	} else {
 		c.Data["json"] = GetRetVO(LoginFailCode, LoginFailMsg, nil)
