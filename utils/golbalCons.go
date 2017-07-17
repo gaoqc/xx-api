@@ -1,5 +1,6 @@
 package utils
 
 const (
-	TicketName = "xx-ticket"
+	TicketName   = "xx-ticket"
+	ValidCodeKey = "xx-validCode_"
 )

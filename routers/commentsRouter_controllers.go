@@ -57,6 +57,22 @@ func init() {
 
 	beego.GlobalControllerRouter["xx-api/controllers:UserController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserController"],
 		beego.ControllerComments{
+			Method: "SendChgPwdValidCode",
+			Router: `/SendChgPwdValidCode`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:UserController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserController"],
+		beego.ControllerComments{
+			Method: "ChgPassword",
+			Router: `/chgPwd`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:UserController"] = append(beego.GlobalControllerRouter["xx-api/controllers:UserController"],
+		beego.ControllerComments{
 			Method: "Logout",
 			Router: `/logout`,
 			AllowHTTPMethods: []string{"post"},

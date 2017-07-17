@@ -7,20 +7,32 @@ import (
 )
 
 const (
+	/**
+	 000000-100000 定义公共异常码
+	**/
+
 	SuccCode          = "000000"
 	SuccMsg           = "success"
-	LoginFailCode     = "000100"
-	LoginFailMsg      = "登陆失败"
-	RegistExistsCode  = "000101"
-	RegistExistsMsg   = "用户已注册"
-	NoLoginCode       = "000102"
-	NoLoginMsg        = "未登录,请先登录"
-	ReLoginCode       = "000103"
-	ReLoginMsg        = "已登录,请勿重新登陆"
 	ParamNotValidCode = "000002"
 	ParamNotValidMsg  = "参数校验失败"
+	ParamNotEmptyCode = "000003"
+	ParamNotEmptyMsg  = "参数%s不能为空"
 	UpdateFailCode    = "000104"
 	UpdateFailMsg     = "更新失败"
+
+	/**
+	**100001-101000 定义用户相关异常
+	**/
+	LoginFailCode     = "100001"
+	LoginFailMsg      = "登陆失败,用户名或密码错误"
+	RegistExistsCode  = "100002"
+	RegistExistsMsg   = "用户已注册"
+	NoLoginCode       = "100003"
+	NoLoginMsg        = "未登录,请先登录"
+	ReLoginCode       = "100004"
+	ReLoginMsg        = "已登录,请勿重新登陆"
+	ChgPwdInValidCode = "100005"
+	ChgPwdInValidMsg  = "验证码校验失败"
 )
 
 func ValidParams(form interface{}) string {

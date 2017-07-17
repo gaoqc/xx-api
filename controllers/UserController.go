@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	// "github.com/garyburd/redigo/redis"
 	// "fmt"
+	"fmt"
 	"github.com/astaxie/beego/logs"
 	"strconv"
 	"xx-api/models"
@@ -110,6 +111,35 @@ func (c *UserController) Login() {
 
 	} else {
 		c.Data["json"] = GetRetVO(LoginFailCode, LoginFailMsg, nil)
+	}
+	c.ServeJSON()
+
+}
+
+//变更密码时发送验证码
+// @router /SendChgPwdValidCode [post]
+func (c *UserController) SendChgPwdValidCode() {
+	user := GetUser(c.GetSession(utils.TicketName).(string))
+	utils.SendValidCode(user.Phone, "ffff")
+	c.Data["json"] = SuccessVO(nil)
+	c.ServeJSON()
+}
+
+//更改用户密码
+// @router /chgPwd	[post]
+func (c *UserController) ChgPassword() {
+	validCode, newPwd := c.GetString("validCode"), c.GetString("newPwd")
+	if len(validCode) == 0 || len(newPwd) == 0 {
+		c.Data["json"] = GetRetVO(ParamNotEmptyCode, fmt.Sprintf(ParamNotEmptyMsg, " validCode or newPwd "), nil)
+		c.ServeJSON()
+		return
+	}
+	user := GetUser(c.GetSession(utils.TicketName).(string))
+	if utils.CheckValidCode(user.Phone, validCode) {
+		num := models.ChgLoginPwd(user.Id, newPwd)
+		c.Data["json"] = SuccessVO(num)
+	} else {
+		c.Data["json"] = GetRetVO(ChgPwdInValidCode, ChgPwdInValidMsg, nil)
 	}
 	c.ServeJSON()
 

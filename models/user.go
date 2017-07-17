@@ -4,6 +4,7 @@ import (
 	// "github.com/astaxie/beego/orm"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -31,6 +32,16 @@ func AddUser(user *User) int64 {
 
 	}
 	return id
+
+}
+
+func ChgLoginPwd(id int, newLoginPwd string) int64 {
+	num, err := orm.NewOrm().QueryTable(User{}).Filter("id", id).Update(orm.Params{"login_pwd": newLoginPwd})
+	if err != nil || num == 0 {
+		logs.Error("err on UpdateLoginPwd:%v", err)
+		return 0
+	}
+	return num
 
 }
 

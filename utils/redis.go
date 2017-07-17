@@ -34,10 +34,12 @@ func redisGetJsonStr(key string) string {
 
 	b, err := redis.Bytes(conn.Do("get", key))
 	if err != nil {
-		logs.Error("redis.Do err:%v", err)
+		logs.Error("redisGetJsonStr err:%v", err)
 
 	}
-	return string(b)
+	str := string(b)
+	logs.Debug("RedisGet.key:%s,val:%s", key, str)
+	return str
 }
 func RedisGet(key string, v interface{}) {
 	str := redisGetJsonStr(key)

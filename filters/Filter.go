@@ -19,12 +19,10 @@ var PrintURL = func(ctx *context.Context) {
 }
 
 func loginFilterUri() []string {
-	return []string{"/v1/user/update", "/v1/userAddress"}
+	return []string{"/v1/user/update", "/v1/userAddress", "/v1/user/chgPwd", "/v1/user/SendChgPwdValidCode"}
 }
 
 var LoginFilter = func(ctx *context.Context) {
-	session := beego.BConfig.WebConfig.Session
-	logs.Debug("SessionGCMaxLifetime:%d,cookie'time:%d", session.SessionGCMaxLifetime, session.SessionCookieLifeTime)
 	uri := ctx.Input.URI()
 	ticket := ctx.Input.Session(utils.TicketName)
 	logs.Debug("uri is" + uri + " ,ticket is :" + utils.ToJson(ticket))
