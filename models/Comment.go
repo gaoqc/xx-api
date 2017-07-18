@@ -44,6 +44,13 @@ func ListComment(articleId int) []Comment {
 	orm.NewOrm().QueryTable(Comment{}).Filter("article_id", articleId).All(&list)
 	return list
 }
+
+func GetCommentById(id int) Comment {
+	var c Comment
+	orm.NewOrm().QueryTable(Comment{}).Filter("id", id).One(&c)
+	return c
+}
+
 func DelComment(id, authorId int) int64 {
 	num, err := orm.NewOrm().QueryTable(Comment{}).Filter("author_id", authorId).Filter("id", id).Delete()
 

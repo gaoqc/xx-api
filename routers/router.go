@@ -36,6 +36,11 @@ func init() {
 				&controllers.CommentController{},
 			),
 		),
+		beego.NSNamespace("/article/comment/like",
+			beego.NSInclude(
+				&controllers.CommentLikeController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 

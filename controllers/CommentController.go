@@ -37,6 +37,11 @@ func (c *CommentController) Add() {
 
 }
 
+type commentList struct {
+	models.Comment
+	Likes int64
+}
+
 /**
 查询
 **/
@@ -45,8 +50,14 @@ func (c *CommentController) List() {
 	articleId, _ := c.GetInt("articleId")
 
 	list := models.ListComment(articleId)
-
-	c.Data["json"] = SuccessVO(list)
+	var cl []commentList
+	for _, l := range list {
+		var ele commentList
+		ele.Comment = l
+		ele.Likes = models.CountCommentLike(l.Id)
+		cl = append(cl, ele)
+	}
+	c.Data["json"] = SuccessVO(cl)
 	c.ServeJSON()
 }
 

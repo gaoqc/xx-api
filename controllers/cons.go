@@ -36,6 +36,8 @@ const (
 	/**
 	**1010001-1020001 定义论坛相关异常
 	**/
+	CommentReLikeCode = "1010001"
+	CommentReLikeMsg  = "已点赞,请勿重复点"
 )
 
 func ValidParams(form interface{}) string {
