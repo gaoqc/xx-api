@@ -31,11 +31,35 @@ func AddArticle(v Article) int64 {
 	}
 	return id
 }
+func UpdateArticle(v Article) int64 {
+	up := make(map[string]interface{})
+	if len(v.Keywords) > 0 {
+		up["keywords"] = v.Keywords
+	}
+	if len(v.SubTitle) > 0 {
+		up["subTitle"] = v.SubTitle
+
+	}
+	if len(v.Title) > 0 {
+		up["title"] = v.Title
+	}
+	num, err := orm.NewOrm().QueryTable(Article{}).Filter("id", v.Id).Filter("author_id", v.Author.Id).Update(up)
+	if err != nil {
+		logs.Error("err at UpdateArticle:%v", err)
+	}
+	return num
+}
 func ListArticle(authorId int) []Article {
 
 	var list []Article
 	orm.NewOrm().QueryTable(Article{}).Filter("author_id", authorId).All(&list)
 	return list
+}
+func GetArticleById(articleId int) Article {
+	var article Article
+	orm.NewOrm().QueryTable(Article{}).Filter("id", articleId).One(&article)
+	// logs.Debug("article info:%v", article)
+	return article
 }
 func DelArticle(id int, authorId int) int64 {
 	c := Article{}

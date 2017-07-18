@@ -45,6 +45,25 @@ func (c *ArticleController) Add() {
 }
 
 /**
+更新
+**/
+// @router /update [post]
+func (c *ArticleController) Update() {
+
+	user := GetUser(c.GetSession(utils.TicketName).(string))
+	m := models.Article{Author: &user, Title: c.GetString("title"), SubTitle: c.GetString("subTitle"), Keywords: c.GetString("keywords"), Context: c.GetString("context")}
+	logs.Debug("add article:%v", utils.ToJson(m))
+	num := models.UpdateArticle(m)
+	if num > 0 {
+		c.Data["json"] = SuccessVO(nil)
+	} else {
+		c.Data["json"] = GetRetVO(UpdateFailCode, UpdateFailMsg, nil)
+	}
+	c.ServeJSON()
+
+}
+
+/**
 查询
 **/
 // @router /list [get]

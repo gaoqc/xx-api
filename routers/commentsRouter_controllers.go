@@ -17,6 +17,14 @@ func init() {
 
 	beego.GlobalControllerRouter["xx-api/controllers:ArticleController"] = append(beego.GlobalControllerRouter["xx-api/controllers:ArticleController"],
 		beego.ControllerComments{
+			Method: "Update",
+			Router: `/update`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:ArticleController"] = append(beego.GlobalControllerRouter["xx-api/controllers:ArticleController"],
+		beego.ControllerComments{
 			Method: "List",
 			Router: `/list`,
 			AllowHTTPMethods: []string{"get"},
@@ -32,6 +40,62 @@ func init() {
 			Params: nil})
 
 	beego.GlobalControllerRouter["xx-api/controllers:ArticleController"] = append(beego.GlobalControllerRouter["xx-api/controllers:ArticleController"],
+		beego.ControllerComments{
+			Method: "Del",
+			Router: `/del`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentController"],
+		beego.ControllerComments{
+			Method: "Add",
+			Router: `/add`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/list`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentController"],
+		beego.ControllerComments{
+			Method: "Del",
+			Router: `/del`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"],
+		beego.ControllerComments{
+			Method: "Add",
+			Router: `/add`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"],
+		beego.ControllerComments{
+			Method: "Update",
+			Router: `/update`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"],
+		beego.ControllerComments{
+			Method: "List",
+			Router: `/list`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
+	beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"] = append(beego.GlobalControllerRouter["xx-api/controllers:CommentLikeController"],
 		beego.ControllerComments{
 			Method: "Del",
 			Router: `/del`,
