@@ -18,6 +18,20 @@ var PrintURL = func(ctx *context.Context) {
 	// }
 }
 
+/**
+* 跨域设置
+**/
+
+var CorsAllow = func(ctx *context.Context) {
+	ctx.Output.Header("Access-Control-Allow-Credentials", "true")
+	ctx.Output.Header("Access-Control-Allow-Methods", "GET,POST")
+	ctx.Output.Header("Access-Control-Allow-Origin", "http://localhost:8080")
+	ctx.Output.Header("Access-Control-Expose-Headers", "Content-Length")
+}
+
+/**
+* 登陆控制区
+**/
 func loginFilterUri() []string {
 	return []string{"/v1/user/update", "/v1/userAddress", "/v1/user/chgPwd",
 		"/v1/user/SendChgPwdValidCode", "/v1/article/add", "/v1/article/del",
