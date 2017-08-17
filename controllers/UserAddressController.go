@@ -3,8 +3,10 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 
-	// "github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/validation"
+	"io/ioutil"
+	"os"
 	"xx-api/models"
 	"xx-api/utils"
 )
@@ -46,6 +48,29 @@ func (c *UserAddressController) AddAddress() {
 	id := models.AddAddress(&address)
 	c.Data["json"] = SuccessVO(id)
 	c.ServeJSON()
+}
+
+// @router /init [get]
+func (c *UserAddressController) InitAddress() {
+	distPath := "/Users/gaoqc/Documents/codes/self/h5/Administrative-divisions-of-China/dist/"
+	var pros []models.Street
+	utils.ToObj(&pros, read(distPath+"streets.json"))
+	logs.Info("read count:%d", len(pros))
+	models.AddMutil(pros)
+	c.Data["json"] = SuccessVO(pros)
+	c.ServeJSON()
+}
+
+func read(path string) []byte {
+	fi, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer fi.Close()
+	fd, err := ioutil.ReadAll(fi)
+	// fmt.Println(string(fd))
+	logs.Info("context:%v", string(fd))
+	return fd
 }
 
 // @router /list [get]

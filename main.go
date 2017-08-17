@@ -25,7 +25,7 @@ func initDb() {
 	beego.Debug("begin initDB")
 	orm.RegisterDataBase("default", "mysql", "root:gaoqc@123.com@/xx?charset=utf8")
 	orm.RegisterModelWithPrefix("t_",
-		new(models.User), new(models.UserAddress), new(models.Article), new(models.CommentLike), new(models.Comment))
+		new(models.User), new(models.UserAddress), new(models.Article), new(models.CommentLike), new(models.Comment), new(models.CustOrder), new(models.Province), new(models.City), new(models.Area), new(models.Street))
 	orm.Debug = true
 	err := orm.RunSyncdb("default", false, true)
 	if err != nil {

@@ -10,13 +10,14 @@ import (
 
 type User struct {
 	TimeModel
-	LoginAcc string
-	LoginPwd string
-	Phone    string `orm:"null"`
-	Email    string `orm:"null`
-	TrueName string `orm:"null`
-	IdNo     string `orm:"null`
-	IdType   int    `orm:"null`
+	LoginAcc  string
+	LoginPwd  string
+	Phone     string `orm:"null"`
+	Email     string `orm:"null`
+	AliasName string `orm:"null"`
+	TrueName  string `orm:"null`
+	IdNo      string `orm:"null`
+	IdType    int    `orm:"null`
 	//用户类型,1普通顾客,2表示维修人员
 	UserType int `orm:"default(1)"`
 	//0 正常,1锁定

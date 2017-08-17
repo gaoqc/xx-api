@@ -23,9 +23,13 @@ var PrintURL = func(ctx *context.Context) {
 **/
 
 var CorsAllow = func(ctx *context.Context) {
+	// allowurl := "http://" + ctx.Input.IP() + ":8080"
+	allowurl := "http://localhost:8080"
+	logs.Info("allow url:%s", allowurl)
+
 	ctx.Output.Header("Access-Control-Allow-Credentials", "true")
 	ctx.Output.Header("Access-Control-Allow-Methods", "GET,POST")
-	ctx.Output.Header("Access-Control-Allow-Origin", "http://localhost:8080")
+	ctx.Output.Header("Access-Control-Allow-Origin", allowurl)
 	ctx.Output.Header("Access-Control-Expose-Headers", "Content-Length")
 }
 
@@ -36,7 +40,7 @@ func loginFilterUri() []string {
 	return []string{"/v1/user/update", "/v1/userAddress", "/v1/user/chgPwd",
 		"/v1/user/SendChgPwdValidCode", "/v1/article/add", "/v1/article/del",
 		"/v1/article/myList", "/v1/article/comment/add", "/v1/article/comment/del",
-		"/v1/article/comment/like/"}
+		"/v1/article/comment/like/", "/v1/cust/addOrder"}
 }
 
 var LoginFilter = func(ctx *context.Context) {

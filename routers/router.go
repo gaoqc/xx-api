@@ -16,8 +16,15 @@ import (
 
 func init() {
 	initFilter()
+	// nsIndex := beego.NewNamespace("/1", beego.NSNamespace("/",
+	// 	beego.NSInclude(
+	// 		&controllers.IndexController{},
+	// 	),
+	// ))
+	beego.Include(&controllers.IndexController{})
 	ns := beego.NewNamespace("/v1",
 		beego.NSBefore(filters.LoginFilter),
+
 		beego.NSNamespace("/userAddress",
 			beego.NSInclude(
 				&controllers.UserAddressController{},
@@ -48,7 +55,13 @@ func init() {
 				&controllers.CustOrderController{},
 			),
 		),
+		beego.NSNamespace("/product",
+			beego.NSInclude(
+				&controllers.HomeAppsController{},
+			),
+		),
 	)
+	// beego.AddNamespace(nsIndex)
 	beego.AddNamespace(ns)
 
 }

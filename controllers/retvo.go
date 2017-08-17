@@ -1,8 +1,9 @@
 package controllers
 
 type RetVO struct {
-	Code, Msg string
-	Data      interface{}
+	Code string      `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 func SuccessVO(d interface{}) RetVO {
