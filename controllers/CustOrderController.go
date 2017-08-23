@@ -10,27 +10,31 @@ type CustOrderController struct {
 	beego.Controller
 }
 type CustOrder struct {
-	Name    string `json:"name";form:"name"`
-	Phone   string `json:"phone";form:"phone"`
-	Address string `json:"address";form:"address"`
-	FixMsg  string `json:"fixMsg";form"fixMsg"`
-	desc    string `json:"desc";form:"desc"`
+	AppTypeId int
+	VendorId  int
+	FixMsg    string
+	AddrId    int
 }
 
 // @router /addOrder [post]
 func (c *CustOrderController) Add() {
 
-	name := c.GetString("name")
-	phone := c.GetString("phone")
-	address := c.GetString("address")
+	appTypeId, _ := c.GetInt("appTypeId")
+	vendorId, _ := c.GetInt("vendorId")
 	fixMsg := c.GetString("fixMsg")
-	desc := c.GetString("desc")
-	model := models.CustOrder{Name: name, Phone: phone, Address: address, FixMsg: fixMsg, Desc: desc}
-	logs.Debug("cust order model:%v", model)
-	models.AddCustOrder(model)
-	c.Data["json"] = SuccessVO(CustOrder{name, phone, address, fixMsg, desc})
+	addrId, _ := c.GetInt("addrId")
 
-	// c.Ctx.Output.Header("Access-Control-Allow-Origin", "http://localhost:8080")
+	model := models.CustOrder{AppTypeId: appTypeId, VendorId: vendorId, FixMsg: fixMsg, AddrId: addrId}
+	logs.Info("order:%v", model)
+
+	models.AddOne(&model)
+	c.Data["json"] = SuccessVO("")
+
+	// logs.Debug("cust order model:%v", model)
+	// models.AddCustOrder(model)
+	// c.Data["json"] = SuccessVO(CustOrder{name, phone, address, fixMsg, desc})
+
+	// // c.Ctx.Output.Header("Access-Control-Allow-Origin", "http://localhost:8080")
 	c.ServeJSON()
 
 }

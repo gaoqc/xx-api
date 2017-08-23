@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	// "github.com/astaxie/beego/logs"
+	"xx-api/models"
 )
 
 type HomeAppsController struct {
@@ -27,4 +28,11 @@ func (c *HomeAppsController) QryAllHomeAppliances() {
 	c.Data["json"] = SuccessVO(apps)
 	c.ServeJSON()
 
+}
+
+// @router /qryHomeAppKind [get]
+func (c *HomeAppsController) QryAppKind() {
+	id, _ := c.GetInt("kindId")
+	c.Data["json"] = SuccessVO(models.QryHomeAppKind(id))
+	c.ServeJSON()
 }

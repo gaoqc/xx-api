@@ -60,6 +60,11 @@ func init() {
 				&controllers.HomeAppsController{},
 			),
 		),
+		beego.NSNamespace("/vendor",
+			beego.NSInclude(
+				&controllers.VendorController{},
+			),
+		),
 	)
 	// beego.AddNamespace(nsIndex)
 	beego.AddNamespace(ns)

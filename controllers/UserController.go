@@ -84,7 +84,7 @@ func (c *UserController) Register() {
 	}
 
 	//新增记录
-	id := models.AddUser(&models.User{LoginAcc: userForm.LoginAcc, LoginPwd: userForm.LoginPwd, Phone: userForm.Phone, Email: userForm.Email, TrueName: userForm.TrueName, IdNo: userForm.IdNo, IdType: userForm.IdType, UserType: userForm.UserType})
+	id := models.AddOne(&models.User{LoginAcc: userForm.LoginAcc, LoginPwd: userForm.LoginPwd, Phone: userForm.Phone, Email: userForm.Email, TrueName: userForm.TrueName, IdNo: userForm.IdNo, IdType: userForm.IdType, UserType: userForm.UserType})
 	c.Data["json"] = SuccessVO("id =" + strconv.FormatInt(id, 10))
 	c.ServeJSON()
 

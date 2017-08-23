@@ -52,12 +52,20 @@ func (c *UserAddressController) AddAddress() {
 
 // @router /init [get]
 func (c *UserAddressController) InitAddress() {
-	distPath := "/Users/gaoqc/Documents/codes/self/h5/Administrative-divisions-of-China/dist/"
-	var pros []models.Street
-	utils.ToObj(&pros, read(distPath+"streets.json"))
-	logs.Info("read count:%d", len(pros))
-	models.AddMutil(pros)
-	c.Data["json"] = SuccessVO(pros)
+	// distPath := "/Users/gaoqc/Documents/codes/self/h5/Administrative-divisions-of-China/dist/"
+	// var pros []models.Street
+	// utils.ToObj(&pros, read(distPath+"streets.json"))
+	// logs.Info("read count:%d", len(pros))
+	// models.AddMutil(pros)
+	id, _ := c.GetInt("id")
+	c.Data["json"] = SuccessVO(models.QryCityByProId(id))
+	c.ServeJSON()
+}
+
+// @router /qryAddr [get]
+func (c *UserAddressController) QryAddr() {
+	addrId, _ := c.GetInt("addrId")
+	c.Data["json"] = SuccessVO(models.QryAddr(addrId))
 	c.ServeJSON()
 }
 

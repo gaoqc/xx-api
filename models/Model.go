@@ -8,12 +8,12 @@ import (
 )
 
 type Model struct {
-	Id int `orm:"pk;auto"`
+	Id int `orm:"pk;auto";json:"id"`
 }
 type TimeModel struct {
 	Model
-	Created time.Time `orm:"auto_now_add;type(datetime)"`
-	Updated time.Time `orm:"auto_now;type(datetime)"`
+	Created time.Time `orm:"auto_now_add;type(datetime)";json:"created"`
+	Updated time.Time `orm:"auto_now;type(datetime)";json:"updated"`
 }
 
 //新增记录

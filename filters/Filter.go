@@ -23,7 +23,7 @@ var PrintURL = func(ctx *context.Context) {
 **/
 
 var CorsAllow = func(ctx *context.Context) {
-	// allowurl := "http://" + ctx.Input.IP() + ":8080"
+	// allowurl := "http://127.0.0.1:8080"
 	allowurl := "http://localhost:8080"
 	logs.Info("allow url:%s", allowurl)
 
