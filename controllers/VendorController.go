@@ -13,7 +13,11 @@ type VendorController struct {
 //@router /qryVendor [get]
 func (c *VendorController) QryVendor() {
 	id, _ := c.GetInt("vendorId")
-	c.Data["json"] = SuccessVO(models.QryVendor(id))
+	if 0 == id {
+		c.Data["json"] = SuccessVO(models.QryAllVendors())
+	} else {
+		c.Data["json"] = SuccessVO(models.QryVendor(id))
+	}
 	c.ServeJSON()
 
 }

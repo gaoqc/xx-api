@@ -16,3 +16,8 @@ func QryVendor(id int) Vendor {
 	orm.NewOrm().QueryTable(Vendor{}).Filter("id", id).One(&v)
 	return v
 }
+func QryAllVendors() []Vendor {
+	var vs []Vendor
+	orm.NewOrm().QueryTable(Vendor{}).All(&vs)
+	return vs
+}

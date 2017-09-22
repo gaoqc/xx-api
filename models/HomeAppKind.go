@@ -17,3 +17,8 @@ func QryHomeAppKind(id int) HomeAppKind {
 	orm.NewOrm().QueryTable(HomeAppKind{}).Filter("id", id).One(&v)
 	return v
 }
+func QryAllHomeApp() []HomeAppKind {
+	var vs []HomeAppKind
+	orm.NewOrm().QueryTable(HomeAppKind{}).All(&vs)
+	return vs
+}

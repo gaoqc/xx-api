@@ -33,6 +33,10 @@ func (c *HomeAppsController) QryAllHomeAppliances() {
 // @router /qryHomeAppKind [get]
 func (c *HomeAppsController) QryAppKind() {
 	id, _ := c.GetInt("kindId")
-	c.Data["json"] = SuccessVO(models.QryHomeAppKind(id))
+	if 0 == id {
+		c.Data["json"] = SuccessVO(models.QryAllHomeApp())
+	} else {
+		c.Data["json"] = SuccessVO(models.QryHomeAppKind(id))
+	}
 	c.ServeJSON()
 }

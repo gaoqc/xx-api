@@ -24,18 +24,6 @@ type User struct {
 	Status int `orm:"default(0)"`
 }
 
-// //新增记录
-// func AddUser(user *User) int64 {
-// 	o := orm.NewOrm()
-// 	id, err := o.Insert(user)
-// 	if err != nil {
-// 		beego.Error("Insert err:")
-
-// 	}
-// 	return id
-
-// }
-
 func ChgLoginPwd(id int, newLoginPwd string) int64 {
 	num, err := orm.NewOrm().QueryTable(User{}).Filter("id", id).Update(orm.Params{"login_pwd": newLoginPwd})
 	if err != nil || num == 0 {
