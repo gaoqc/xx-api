@@ -38,3 +38,17 @@ func AddMutil(v interface{}) {
 
 	}
 }
+
+// 查询单条记录
+func QryOne(tableName string, condList []orm.Condition) interface{} {
+	o := orm.NewOrm()
+	qs := o.QueryTable(tableName)
+	for _, cond := range condList {
+		qs = qs.SetCond(&cond)
+	}
+	var v interface{}
+	if err := qs.One(&v); err != nil {
+		beego.Error("Insert muilts err:%v", err)
+	}
+	return v
+}
